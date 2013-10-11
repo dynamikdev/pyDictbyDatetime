@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='pyDictbyDatetime',
     version='0.1',
-    packages=['pydictdatetime'],
+    packages=['pyDictbyDatetime'],
     url='https://github.com/dynamikdev/pyDictbyDatetime',
     license='GPLV3',
     author='philippe',

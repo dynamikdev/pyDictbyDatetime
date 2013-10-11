@@ -1,7 +1,8 @@
+from pyDictbyDatetime import pydictdatetime
+
 __author__ = 'philippe'
 
 import unittest
-import pydictdatetime
 from datetime import datetime,timedelta
 
 class MyTestCase(unittest.TestCase):
