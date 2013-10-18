@@ -8,10 +8,10 @@ def dateInside(date,start,end):
            ((start is None or start <= date)\
             and (end is None or end >= date))
 
+from collections import namedtuple
 
 
-
-
+KeyTimed=namedtuple("KeyTimed",'key,startdate,enddate')
 
 class DictByDatetime(dict):
     #__data__ = dict()
@@ -32,15 +32,15 @@ class DictByDatetime(dict):
 
     def items(self,date=datetime.now()):
 
-        return filter(lambda tk,v: dateInside(date,tk[1],tk[2]), super(DictByDatetime, self).items())
+        return filter(lambda (tk,v): dateInside(date,tk.startdate,tk.enddate), super(DictByDatetime, self).items())
 
 
     def itervalues(self,date=datetime.now()):
-        return [v for k,v in self.iteritems(date)]
+        return (v for k,v in self.iteritems(date))
 
 
     def iteritems(self, date=datetime.now()):
-        return ifilter(lambda (tk,v): dateInside(date,tk[1],tk[2]), super(DictByDatetime, self).iteritems())
+        return ifilter(lambda (tk,v): dateInside(date,tk.startdate,tk.enddate), super(DictByDatetime, self).iteritems())
 
     def get(self, key, default=[],date=datetime.now()):
         lst = self.itervalues(date)
@@ -69,7 +69,7 @@ class DictByDatetime(dict):
 
 
     def values(self,date=datetime.now()):
-        return filter(lambda tk,v: dateInside(date,tk[1],tk[2]), super(DictByDatetime, self).iteritems())
+        return [v for k,v in self.items(date)]
 
     def __setitem__(self, key, value):
         """
@@ -97,7 +97,7 @@ class DictByDatetime(dict):
         if not isinstance(key[0],basestring):
             raise TypeError( DictByDatetime.__setitem__.__doc__, " giving : ",key, type(key[0]))
         keystring= key[0]
-        super(DictByDatetime, self).__setitem__((key,startdate,enddate), value)
+        super(DictByDatetime, self).__setitem__(KeyTimed(keystring,startdate,enddate), value)
 
     def pop(self, key, default=None):
         return super(DictByDatetime, self).pop(key, default)
